@@ -10,6 +10,7 @@
 	</parent>
 	<groupId>com.test</groupId>
 	<artifactId>sandbox</artifactId>
+	<version>1.0.0</version>
 	<name>sandbox</name>
 	<description>Sandbox for Spring Boot</description>
 	<properties>

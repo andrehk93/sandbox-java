@@ -1,9 +1,15 @@
-FROM maven:3.8.3-openjdk-17
+FROM maven:3.8.3-openjdk-17 AS build
 
-WORKDIR /app
+WORKDIR /app/
 
-CMD ["mvn clean install"]
+COPY . .
 
-COPY target/*.jar /app/target/
+RUN mvn clean package
 
-CMD ["java", "-jar", "/app/target/sandbox-0.0.1-SNAPSHOT.jar"]
+FROM openjdk:17-alpine
+
+WORKDIR /app/
+
+COPY --from=build /app/target/*.jar /app/target/
+
+CMD ["java", "-jar", "/app/target/sandbox-1.0.0.jar"]
