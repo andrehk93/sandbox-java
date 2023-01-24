@@ -2,7 +2,8 @@ name: ACR Push
 
 on:
   push:
-    branches: [ "main" ]
+    tags:
+      - '*'
 
 env:
   IMAGE_NAME: sandbox
@@ -14,6 +15,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
       - name: Log into registry
         uses: docker/login-action@v1
         with:
@@ -25,5 +29,5 @@ jobs:
         with:
           push: true
           build-args: |
-            version=latest
-          tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:latest
+            version=${{ steps.tag.outputs.tag }}
+          tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }} , ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:latest
