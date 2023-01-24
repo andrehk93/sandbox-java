@@ -7,6 +7,7 @@ on:
 
 env:
   IMAGE_NAME: sandbox
+  APP_NAME: sandbox-java
 
 jobs:
   build:
@@ -31,3 +32,9 @@ jobs:
           build-args: |
             version=${{ steps.tag.outputs.tag }}
           tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }} , ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:latest
+      - name: Deploy WebApp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.APP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}
