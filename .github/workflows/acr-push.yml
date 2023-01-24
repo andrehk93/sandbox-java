@@ -2,7 +2,8 @@ name: ACR Push
 
 on:
   push:
-    tags: [ "v*.*.*" ]
+    tags:
+      - '*'
 
 env:
   IMAGE_NAME: sandbox
