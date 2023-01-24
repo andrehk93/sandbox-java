@@ -10,4 +10,9 @@ public class Test {
     private String Hello() {
         return "Hello world";
     }
+
+    @GetMapping("/api/hello")
+    private String HelloWorld() {
+        return "Hello Docker World";
+    }
 }
